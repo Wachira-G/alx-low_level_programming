@@ -21,16 +21,17 @@ int main(void)
 			{
 				for (m = 0; m <= 9; m++)
 				{
-					if ((i == k && j == m) || (k < i || m < j))
+					int num1 = (i * 10) + j;
+					int num2 = (k * 10) + m;
+
+					if (num1 >= num2 || num1 > 98)
 					{
 						continue;
 					} else
 					{
 						putchar('0' + i);
 						putchar('0' + j);
-
 						putchar(' ');
-
 						putchar('0' + k);
 						putchar('0' + m);
 					}
