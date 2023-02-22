@@ -11,4 +11,6 @@ int _islower(char);
 
 int _isalpha(int);
 
+int print_sign(int);
+
 #endif /* _MAIN_H_ */
