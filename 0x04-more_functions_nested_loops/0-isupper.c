@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * main - define
+ * _isupper - define
  * Description: tests if c is uppercase
  * @c: character to test
  * Return: 1 if uppercae 0 if not
