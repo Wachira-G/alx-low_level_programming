@@ -10,13 +10,9 @@
 void fibonacci(int n)
 {
 	int i = 0;
-	long int start = 0, second = 1, temp, last, new;
+	long int temp = 0, last = 1, new;
 
-	printf("%ld, %ld, ", start, second);
-	temp = start;
-	last = second;
-
-	while (i < n - 3)
+	while (i < n - 1)
 	{
 		new = temp  + last;
 		temp = last;
