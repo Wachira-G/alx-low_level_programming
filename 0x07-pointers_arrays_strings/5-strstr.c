@@ -17,11 +17,11 @@ char *_strstr(char *haystack, char *needle)
 	unsigned int i, j, k;
 
 	if (haystack == 0 || needle == 0 ||
-		haystack[0] == '\0' || needle[0] == '\0')
-		/* null pointers and empty strings*/
+		haystack[0] == '\0') /* null pointers and empty haystack*/
 	{
 		return (0);
-	}
+	} else if (needle[0] == '\0')
+		return (&haystack[0]);
 
 	for (i = 0; haystack[i] != '\0'; i++)
 	{

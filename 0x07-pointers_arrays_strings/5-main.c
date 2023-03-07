@@ -14,5 +14,7 @@ int main(void)
 
     t = _strstr(s, f);
     printf("%s\n", t);
+
+    printf("%s\n", _strstr("First, solve the problem. Then, write the code.", ""));
     return (0);
 }
