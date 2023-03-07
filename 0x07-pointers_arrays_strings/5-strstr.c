@@ -16,12 +16,17 @@ char *_strstr(char *haystack, char *needle)
 {
 	unsigned int i, j, k;
 
-	if (haystack == 0 || needle == 0)
+	if (haystack == 0 || needle == 0 ||
+		       	haystack[0] == '\0' || needle[0] == '\0')
+		/* null pointers and empty strings*/
+	{
 		return (0);
+	}
 
 	for (i = 0; haystack[i] != '\0'; i++)
 	{
-		if (needle[0] == haystack[i])
+		if (needle[0] == haystack[i]) 
+			/* 1st char in needle==current char in hay*/
 		{
 			k = i;
 			for (j = 0; needle[j] != '\0'; j++)
@@ -29,9 +34,9 @@ char *_strstr(char *haystack, char *needle)
 				if (haystack[k] == needle[j])
 					k++;
 			}
+			if (k - i == j)
+				return (&haystack[i]);
 		}
-		if (k - i == j)
-			return (&haystack[i]);
 	}
 	return (0);
 }
