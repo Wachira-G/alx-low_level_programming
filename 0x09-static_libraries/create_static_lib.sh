@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Find all .c files in the current directory and its subdirectories
+find . -type f -name "*.c" -print0 |
+
+while read -d '' file_name; do
+    # Compile the .c file into a .o file with the same name
+    gcc -c "$file_name" -o "${file_name%.c}.o"
+done
+
+# make static library liball with all the .o files created above
+ar rcs "liball.a" $(find . -name "*.o" -print)
