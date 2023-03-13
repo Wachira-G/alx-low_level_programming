@@ -16,14 +16,31 @@
  */
 char *_strdup(char *str)
 {
-	char *str2;
-	int i;
+	char *str2 = NULL;
+	int i, j;
 
-	str2 = (char *) malloc(sizeof(str));
-	if (!str2 || str == NULL)
+	if (str == NULL)
+	{
 		return (NULL);
+	}
 
-	for (i = 0; str[i] != '\0'; i++)
-		str2[i] = str[i];
+	i = 0;
+	while (str[i] != '\0') /* strlen */
+	{
+		i++;
+	}
+
+	str2 = (char *) malloc((i + 1) * sizeof(char));
+
+	if (str2 == NULL)
+	{
+		return (NULL);
+	}
+
+	for (j = 0; j < i; j++)
+	{
+		str2[j] = str[j];
+	}
+	str2[i] = '\0';
 	return (str2);
 }
