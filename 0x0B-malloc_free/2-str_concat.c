@@ -14,37 +14,44 @@
 
 char *str_concat(char *s1, char *s2)
 {
-	int i, j, k, l, m;
+	int s1_len, s2_len, k, l, m;
 	char *string;
 
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
 
-	i = 0;
-	while (s1[i] != '\0')
+	s1_len = 0;
+	if (s1 != NULL)
 	{
-		i++;
+		while (s1[s1_len] != '\0')
+			s1_len++;
 	}
-	j = 0;
-	while (s2[j] != '\0')
+	s2_len = 0;
+	if (s2 != NULL)
 	{
-		j++;
+		while (s2[s2_len] != '\0')
+			s2_len++;
 	}
-
-	k = i + j;
+	k =  s1_len + s2_len;
 	string = (char *) malloc((k + 1) * sizeof(char));
 	if (string == NULL)
 		return (NULL);
 
-	for (m = 0; m < i; m++)
+	m = 0;
+	if (s1 != NULL)/* concatenate 1st str if not null */
 	{
-		string[m] = s1[m];
+		for (; m <  s1_len; m++)
+			string[m] = s1[m];
 	}
-	for (l = 0; l < j; l++)
+	l = 0;
+	if (s2 != 0) /* concatenate 2nd str if not null */
 	{
-		string[m] = s2[l];
-		m++;
+		for (; l < s2_len; l++)
+		{
+			string[m] = s2[l];
+			m++;
+		}
 	}
-	string[k] = '\0';
+	string[k] = '\0'; /* add a teminating null */
 	return (string);
 }
