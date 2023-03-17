@@ -19,19 +19,19 @@
 void *_calloc(unsigned int nmemb, unsigned int size)
 {
 	size_t i;
-	void *arr;
+	char *arr;
 
 	if (nmemb == 0 || size == 0)
 	       /* || size > SIZE_MAX || size * nmemb > SIZE_MAX)*/
 		return (NULL);
 
-	arr = malloc(sizeof(int) * (nmemb * size));
+	arr = malloc(nmemb * size);
 	if (arr == NULL)
 		return (NULL);
 
 	for (i = 0; i < (nmemb * size); i++)
 	{
-		((int *)arr)[i] = 0;
+		arr[i] = 0;
 	}
-	return (arr);
+	return ((void *)arr);
 }
