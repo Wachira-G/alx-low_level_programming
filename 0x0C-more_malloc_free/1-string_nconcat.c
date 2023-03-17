@@ -24,18 +24,19 @@ char *string_nconcat(char *s1, char *s2, unsigned int n)
 	if (s2 == NULL)
 		s2 = "";
 
-	while (s1[result_len] || s2[result_len])/* get s1 and s2 length */
+	/* get s1 and s2 length */
+	while (s1[result_len] || (s2[result_len] && result_len <= n))
 	{
 		result_len = result_len + 1;
 	}
 
-	result = malloc(result_len + 1);
+	result = malloc(sizeof(char *) * (result_len + 1));
 	if (result == NULL)
 		return (NULL);
 
 	for (i = 0; s1[i] != '\0'; i++)
 		result[i] = s1[i];
-	for (j = 0; j < n &&  s2[j] != '\0'; j++)
+	for (j = 0; j < n && s2[j] != '\0'; j++)
 		result[i + j] = s2[j];
 
 	result[i + j] = '\0';
