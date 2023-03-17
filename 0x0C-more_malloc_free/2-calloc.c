@@ -19,10 +19,10 @@
 void *_calloc(unsigned int nmemb, unsigned int size)
 {
 	size_t i;
-	char *arr;
+	char *arr; /* not void since we shall initialize,*/
+       /* and cannot initialize a void pointer */
 
 	if (nmemb == 0 || size == 0)
-	       /* || size > SIZE_MAX || size * nmemb > SIZE_MAX)*/
 		return (NULL);
 
 	arr = malloc(nmemb * size);
@@ -32,6 +32,6 @@ void *_calloc(unsigned int nmemb, unsigned int size)
 	for (i = 0; i < (nmemb * size); i++)
 	{
 		arr[i] = 0;
-	}
+	} /* calloc returns a void pointer, so convert to void */
 	return ((void *)arr);
 }
