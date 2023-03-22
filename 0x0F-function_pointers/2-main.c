@@ -13,6 +13,17 @@ int is_98(int elem)
 }
 
 /**
+ * is_65 - check if a number is equal to 65
+ * @elem: the integer to check
+ *
+ * Return: 0 if false, something else otherwise.
+ */
+int is_65(int elem)
+{
+    return (65 == elem);
+}
+
+/**
  * is_strictly_positive - check if a number is greater than 0
  * @elem: the integer to check
  *
@@ -50,6 +61,15 @@ int main(void)
     index = int_index(array, 20, abs_is_98);
     printf("%d\n", index);
     index = int_index(array, 20, is_strictly_positive);
+    printf("%d\n", index);
+
+    index = int_index(array, 20, is_65);
+    printf("%d\n", index);
+    index = int_index(NULL, 20, is_65);
+    printf("%d\n", index);
+    index = int_index(array, -2, is_65);
+    printf("%d\n", index);
+    index = int_index(array, 20, NULL);
     printf("%d\n", index);
     return (0);
 }
