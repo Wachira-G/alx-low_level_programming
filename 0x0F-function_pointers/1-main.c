@@ -34,5 +34,11 @@ int main(void)
 
     array_iterator(array, 5, &print_elem);
     array_iterator(array, 5, &print_elem_hex);
+    printf("array is null\n");
+    array_iterator(NULL, 5, &print_elem_hex);
+    printf("size is 0\n");
+    array_iterator(array, 0, &print_elem_hex);
+    printf("funtion pointer is null\n");
+    array_iterator(array, 5, NULL);
     return (0);
 }
