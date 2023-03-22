@@ -7,7 +7,8 @@
  *
  * Return: a pointer to the function that corresponds to the operator given
  *  as a parameter.
- *  If s does not match any of the 5 expected operators (+, -, *, /, %), return NULL
+ *  If s does not match any of the 5 expected operators (+, -, *, /, %),
+ *  return NULL
  *
  *  You are not allowed to use switch statements
  *  You are not allowed to use for or do ... while loops
