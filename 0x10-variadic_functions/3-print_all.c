@@ -1,6 +1,25 @@
+#include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include "variadic_functions.h"
+
+
+void print_char(char c)
+{
+	printf("%c", c);
+}
+void print_int(int i)
+{
+	printf("%d", i);
+}
+void print_float(float f)
+{
+	printf("%f", f);
+}
+void print_string(char *s)
+{
+	printf("%s", s);
+}
 
 /**
  * print_all - a function that prints anything.
@@ -22,35 +41,50 @@
 
 void print_all(const char * const format, ...)
 {
+	int i = 0, len = 0, match = 0;
 	va_list args;
-	int i, j;
-	char *final[200] = {NULL};
-	idents arr = {
-		{'i', "%d"},
-		{'c', "%c"},
-		{'f', "%f"},
-		{'s', "%s"},
-		{NULL, NULL},
-	}
+	char *s;
 
-	i = 0, j = 0;
-	while (format[i] != NULL)
+	while (format[len] != '\0')
+		len++;
+	
+	if (format == NULL)
 	{
-		while (j < 4)
+		printf("(nil)\n");
+		return;
+	}
+	va_start(args, format);
+	while (format[i] != '\0')
+	{
+		match = 0;
+		switch (format[i])
 		{
-			if (arr[j].id == format[i])
-			{
-				final[i] = arr[j].rep;
-				break;
-			}
-			j++;
+			case 'c':
+				 print_char(va_arg(args, int));
+				 match = 1;
+				 break;
+			case 'i':
+				print_int(va_arg(args,int));
+				match = 1;
+				 break;
+			case 'f':
+				print_float(va_arg(args, double));
+				match = 1;
+				 break;
+			case 's':
+				s = va_arg(args, char *);
+				if (s == NULL)
+					printf("(nil)");
+				print_string(s);
+				match = 1;
+				 break;
+			default:
+				 break;
 		}
+		if (i < len - 1 && match)
+			printf(", ");
 		i++;
 	}
-
-	va_start(args, format);
-
-	va_arg(args, char *);
-
 	va_end(args);
+	printf("\n");
 }
