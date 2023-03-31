@@ -3,24 +3,63 @@
 #include <stdio.h>
 #include "variadic_functions.h"
 
-
-void print_char(char c)
-{
-	printf("%c", c);
-}
+/**
+ * print_int - prints an integer
+ * @i: integer to print
+ */
 void print_int(int i)
 {
 	printf("%d", i);
 }
+/**
+ * print_float - prints a float
+ * @f: float to print
+ */
 void print_float(float f)
 {
 	printf("%f", f);
 }
+/**
+ * print_string - prints a string
+ * @s: string to print
+ */
 void print_string(char *s)
 {
 	printf("%s", s);
 }
+/**
+ * cases - search for specifiers -like in printf to use in printing
+ * @a: specifier char to check
+ * @args: va_list to fetch argument
+ * Return: integer 0 or 1 for match in case
+ */
+int cases(char a, va_list args)
+{
+	char *s;
+	int match = 0;
 
+	switch (a)
+	{
+			case 'i':
+				print_int(va_arg(args, int));
+				match = 1;
+				break;
+			case 'f':
+				print_float(va_arg(args, double));
+				match = 1;
+				break;
+			case 's':
+				s = va_arg(args, char *);
+				if (s == NULL)
+					printf("(nil)");
+				print_string(s);
+				match = 1;
+				break;
+			default:
+				break;
+	}
+	return (match);
+}
 /**
  * print_all - a function that prints anything.
  * @format: is a list of types of arguments passed to the function
@@ -43,11 +82,10 @@ void print_all(const char * const format, ...)
 {
 	int i = 0, len = 0, match = 0;
 	va_list args;
-	char *s;
 
 	while (format[len] != '\0')
 		len++;
-	
+
 	if (format == NULL)
 	{
 		printf("(nil)\n");
@@ -56,31 +94,17 @@ void print_all(const char * const format, ...)
 	va_start(args, format);
 	while (format[i] != '\0')
 	{
-		match = 0;
-		switch (format[i])
+		if (format[i] == 'c')
 		{
-			case 'c':
-				 print_char(va_arg(args, int));
-				 match = 1;
-				 break;
-			case 'i':
-				print_int(va_arg(args,int));
-				match = 1;
-				 break;
-			case 'f':
-				print_float(va_arg(args, double));
-				match = 1;
-				 break;
-			case 's':
-				s = va_arg(args, char *);
-				if (s == NULL)
-					printf("(nil)");
-				print_string(s);
-				match = 1;
-				 break;
-			default:
-				 break;
+			printf("%c", va_arg(args, int));
+			match = 1;
 		}
+		else
+		{
+			match = 0;
+			match = cases(format[i], args);
+		}
+
 		if (i < len - 1 && match)
 			printf(", ");
 		i++;
