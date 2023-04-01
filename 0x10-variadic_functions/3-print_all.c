@@ -50,13 +50,7 @@ int cases(char a, va_list args)
 				break;
 			case 's':
 				s = va_arg(args, char *);
-				if (s == NULL)
-				{
-					printf("(nil)");
-					match = 1;
-				}
-				print_string(s);
-				match = 1;
+				match = s == NULL ? (printf("(nil)"), 1) : (print_string(s), 1);
 				break;
 			default:
 				match = 0;
@@ -87,10 +81,15 @@ void print_all(const char * const format, ...)
 	int i = 0, len = 0, match = 0;
 	va_list args;
 
+	if (format == NULL)
+	{
+		printf("\n");
+		return;
+	}
+
 	while (format[len] != '\0')
 		len++;
 
-	format == NULL ? printf("(nil)\n") : 0;
 	va_start(args, format);
 	while (format[i] != '\0')
 	{
