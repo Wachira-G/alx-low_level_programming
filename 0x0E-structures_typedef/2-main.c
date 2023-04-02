@@ -17,9 +17,9 @@ int main(void)
     print_dog(&my_dog);
 
 
-    my_dog.name = NULL;
-    my_dog.age = -1;
-    my_dog.owner = NULL;
+    my_dogg.name = NULL;
+    my_dogg.age = -1;
+    my_dogg.owner = NULL;
     print_dog(&my_dogg);
     return (0);
 }
