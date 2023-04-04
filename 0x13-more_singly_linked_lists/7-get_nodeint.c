@@ -20,6 +20,8 @@ listint_t *get_nodeint_at_index(listint_t *head, unsigned int index)
 	/* traverse the list */
 	while (i != index)
 	{
+		if (i < index && tmp->next == NULL)
+			return (NULL);
 		tmp = tmp->next;
 		i++;
 	}
