@@ -1,10 +1,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "main.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include <limits.h>
 
 /**
  * read_textfile - reads a text file and prints it to the POSIX standard output
