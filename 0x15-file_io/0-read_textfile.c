@@ -19,28 +19,28 @@
 ssize_t read_textfile(const char *filename, size_t letters)
 {
 	int count = 0, write_count = 0, fptr = open(filename, O_RDONLY);
-	char *buffer = NULL;
+	char *buffer = NULL; /* later point to heap for enough buffer space */
 	struct stat size;
 
 	if (filename == NULL)
 		return (0);
-	if (fptr == -1)
+	if (fptr == -1) /* open fail */
 		return (0);
-	if (stat(filename, &size) == -1)
+	if (stat(filename, &size) == -1) /* call to stat fail */
 	{
 		close(fptr);
 		return (0);
 	}
-	if (letters > (size_t)size.st_size)
+	if (letters > (size_t)size.st_size) /*letters larger than filesize */
 		letters = size.st_size;
 	buffer = malloc(letters + 1);
-	if (buffer == NULL)
+	if (buffer == NULL) /* malloc fail */
 	{
 		close(fptr);
 		return (0);
 	}
 	count = read(fptr, buffer, letters);
-	if (count == -1)
+	if (count == -1) /* read fail */
 	{
 		free(buffer);
 		close(fptr);
@@ -48,7 +48,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	}
 	buffer[count] = '\0'; /* append ternimating null in array */
 	write_count = write(STDOUT_FILENO, buffer, count);
-	if (write_count < 0)
+	if (write_count < 0) /* write fail */
 	{
 		free(buffer);
 		close(fptr);
