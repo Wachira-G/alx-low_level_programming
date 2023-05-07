@@ -18,7 +18,7 @@ char *_strcpy(char *dest, char *src)
 	{
 		dest[i] = src[i];
 	}
-	return dest;
+	return (dest);
 }
 
 /**
@@ -41,6 +41,47 @@ size_t _strlen(const char *s)
 }
 
 /**
+ * _new_dog - definition
+ * Description: a function that creates a new dog.
+ * You have to store a copy of name and owner
+ * @name: new dogs name and struct member
+ * @age: struct member
+ * @owner: struct member
+ * Return: NULL if the function fails
+ */
+dog_t *_new_dog(char *name, float age, char *owner)
+{
+	dog_t *doggo, new;
+	size_t name_len, owner_len, i = 0;
+	char nam[64] = {0};
+	char ownr[64] = {0};
+
+	name_len = _strlen(name);
+	owner_len = _strlen(owner);
+	while (i <= name_len)
+	{
+		nam[i] = '\0';
+		i++;
+	}
+
+	i = 0;
+	while (i <= owner_len)
+	{
+		ownr[i] = '\0';
+		i++;
+	}
+	_strcpy(nam, name);
+	_strcpy(ownr, owner);
+
+	new.name = nam;
+	new.owner = ownr;
+	new.age = age;
+	doggo = &new;
+	return (doggo);
+/* this is wrong as it returns a local variable. we should use malloc */
+}
+
+/**
  * new_dog - definition
  * Description: a function that creates a new dog.
  * You have to store a copy of name and owner
@@ -51,8 +92,8 @@ size_t _strlen(const char *s)
  */
 dog_t *new_dog(char *name, float age, char *owner)
 {
-	dog_t *doggo;
-	size_t owner_len, name_len;
+	dog_t *doggo = NULL;
+	size_t i, owner_len, name_len;
 
 	/* allocate memory for doggo */
 	doggo = malloc(sizeof(dog_t));
@@ -66,6 +107,12 @@ dog_t *new_dog(char *name, float age, char *owner)
 	{
 		free(doggo);
 		return (NULL);
+	}
+	i = 0;
+	while (i <= name_len)
+	{
+		doggo->name[i] = '\0';
+		i++;
 	}
 	_strcpy(doggo->name, name);
 
