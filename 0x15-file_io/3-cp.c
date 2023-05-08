@@ -17,12 +17,22 @@ void close_file(int fd)
 
 /**
  * read_error - handles read errors
- * @file_from: file descriptor of the file to read from
+ * @file_from: file to read from
  */
 void read_error(char *file_from)
 {
 	dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
 	exit(98);
+}
+
+/**
+ * write_error - handles write error and opening write file errors
+ * @file_to: file we want to write to
+ */
+void write_error(char *file_to)
+{
+	dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
+	exit(99);
 }
 
 /**
@@ -74,19 +84,16 @@ int main(int ac, char **av)
 		read_error(file_from);
 	file_from_fd = open(file_from, O_RDONLY); /* open file in read only mode*/
 	if (file_from_fd == -1)
-		return (0);
+		read_error(file_from);
 	file_to_fd = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (file_to_fd == -1)
-		return (0);
+		write_error(file_to);
 	/* read file contents into buffer buf - upto letters(number)*/
 	while ((red = read(file_from_fd, buf, BUFFER_SIZE)) > 0)
 	{
 		writ = write(file_to_fd, buf, red);
 		if (writ == -1)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
-			exit(99);
-		}
+			write_error(file_to);
 	}
 	if (red == -1)
 		read_error(file_from);
