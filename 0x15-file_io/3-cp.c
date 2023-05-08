@@ -1,45 +1,36 @@
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 
 /**
- * read_error - read error handling helper function
- * @filename: name of file we are trying to read
+ * close_file - closes a file and handles errors on fail
+ * @fd: file descriptor
  */
-void read_error(char *filename)
+void close_file(int fd)
 {
-	dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", filename);
-	exit(98);
+	int closed = close(fd);
+
+	if (closed == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
 }
 
 /**
- * close_error - closing file error handling
- * @fd: file descriptor
+ * read_error - handles read errors
+ * @file_from: file descriptor of the file to read from
  */
-void close_error(int fd)
+void read_error(char *file_from)
 {
-	dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
-	exit(100);
-}
-/**
-  * write_error - write error handling helper funtion
-  * @filename: our file.
-  */
-void write_error(char *filename)
-{
-	dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
-	exit(99);
+	dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from);
+	exit(98);
 }
 
 /**
  * main - entry point to our program
  * that copies the content of a file to another file.
  * Usage - cp file_from file_to
- * @argc: number of arguments given;
- * @argv: array to the arguments as strings.
+ * @ac: number of arguments given;
+ * @av: array to the arguments as strings.
  *
  * if the number of argument is not the correct one,
  *  exit with code 97 and print Usage cp file_from file_to,
@@ -65,45 +56,41 @@ void write_error(char *filename)
  * You are allowed to use dprintf
  * Return: 0 always.
  */
-
-int main(int argc, char **argv)
+int main(int ac, char **av)
 {
-	int from_fd, to_fd, num_read, num_written;
-	char buffer[1024];
-	struct stat st;
 
-	/*check for correct number of arguments */
-	if (argc != 3)
+	int file_from_fd, file_to_fd;
+	char buf[BUFFER_SIZE], *file_from, *file_to;
+	ssize_t red, writ;
+
+	if (ac != 3)
 	{
 		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
-	/* open source file for reading */
-	if (stat(argv[1], &st) == -1)
-		read_error(argv[1]);
-	from_fd = open(argv[1], O_RDONLY);
-	if (from_fd == -1)
-		read_error(argv[1]);
-
-	/* Open destination file for writing, truncate if it exists */
-	to_fd = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (to_fd == -1)
-		write_error(argv[2]);
-	/* copy file contents */
-	while ((num_read = read(from_fd, buffer, 1024)) > 0)
+	file_from = av[1];
+	file_to = av[2];
+	if (file_from == NULL)
+		read_error(file_from);
+	file_from_fd = open(file_from, O_RDONLY); /* open file in read only mode*/
+	if (file_from_fd == -1)
+		return (0);
+	file_to_fd = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (file_to_fd == -1)
+		return (0);
+	/* read file contents into buffer buf - upto letters(number)*/
+	while ((red = read(file_from_fd, buf, BUFFER_SIZE)) > 0)
 	{
-		num_written = write(to_fd, buffer, num_read);
-		if (num_written != num_read)
-			write_error(argv[2]);
+		writ = write(file_to_fd, buf, red);
+		if (writ == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
+			exit(99);
+		}
 	}
-	/* handle errors during copy */
-	if (num_read == -1)
-		read_error(argv[1]);
-	/* close file descriptors */
-	if (close(from_fd) == -1)
-		close_error(from_fd);
-	if (close(to_fd) == -1)
-		close_error(to_fd);
-
+	if (red == -1)
+		read_error(file_from);
+	close_file(file_from_fd);
+	close_file(file_to_fd);
 	return (0);
 }
