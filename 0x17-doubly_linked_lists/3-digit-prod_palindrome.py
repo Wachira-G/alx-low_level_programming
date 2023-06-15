@@ -8,7 +8,7 @@ def is_palindrome(string):
 	if size == 1:
 	    return True
 	array = [(string[i], string[-i-1]) for i in range(int(len(string)/2))]
-	return reduce((lambda x,y: x == y), array)
+	return reduce(lambda x,y: x and y, [x == y for x, y in array])
 
 
 for i in range(100, 1000):
@@ -18,5 +18,6 @@ for i in range(100, 1000):
         if is_palindrome(str_product):
             if max_var < product:
                 max_var = product
+                print(f'{i} * {j} = {max_var}')
 
 print(f"largest palindrome is {max_var}")
