@@ -14,7 +14,7 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 	unsigned long int index;
 	hash_node_t *element = NULL;
 
-	if (ht == NULL || key == NULL || strcmp(key, "") == 0)
+	if (ht == NULL || key == NULL || strcmp(key, "") == 0 || ht->size == 0)
 		return (0);
 
 	index = hash_djb2((const unsigned char *) key) % ht->size;

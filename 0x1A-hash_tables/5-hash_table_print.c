@@ -12,7 +12,7 @@ void hash_table_print(const hash_table_t *ht)
 	unsigned long i;
 	int is_first_pair = 1;
 
-	if (ht == NULL)
+	if (ht == NULL || ht->size == 0)
 	{
 		printf("{}\n");
 		return;
