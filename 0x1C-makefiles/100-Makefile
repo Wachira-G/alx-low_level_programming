@@ -17,16 +17,14 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 clean:
-	-$(RM) -f *~ $(NAME)
+	-$(RM) *~ $(NAME)
 
 oclean:
-	-$(RM) -f $(OBJ)
+	-$(RM) $(OBJ)
 
 fclean: clean oclean
 
 re: oclean all
 
-$(OBJ): m.h
-
-.PHONY: all clean oclean fclean re
+.PHONY: clean oclean fclean re
 
