@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 
 int _putchar(char c);
 
@@ -13,26 +14,37 @@ int _putchar(char c);
 
 void print_number(int n)
 {
-	int i = 0;
-	char str[100];
-	int neg_sign;
+	int temp = n, digitCount = 0;
 
+	if (n == 0)
+	{
+		_putchar(n + '0');
+		return;
+	}
 	if (n < 0)
 	{
-		neg_sign = 1;
+		_putchar('-');
+		temp *= -1;
 		n *= -1;
 	}
 
-	do {
-		str[i++] = (n % 10) + '0';
-		n = n / 10;
-	} while (n > 0);
-
-	if (neg_sign)
+	while (temp != 0)
 	{
-		str[i++] = '-';
+		temp /= 10;
+		digitCount++;
 	}
-	str[i] = '\0';
-	for (; i >= 0; i--)
-		_putchar(str[i]);
+
+	while (digitCount > 0)
+	{
+		int i, currentDigit, divisor = 1;
+
+		for (i = 1; i < digitCount; i++)
+			divisor *= 10;
+
+		currentDigit = n / divisor;
+		_putchar(currentDigit + '0');
+
+		n %= divisor;
+		digitCount--;
+	}
 }
